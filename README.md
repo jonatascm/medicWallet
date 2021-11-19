@@ -11,13 +11,21 @@
 	<tr>
 		<th>Create</th>
 		<th>Recover</th>
+		<th>Receive</th>
+		<th>Transfer</th>
  	</tr>
  	<tr>
   		<td>
-      <img src="assets/create.gif" width="100%" height="200px"/>
+      	<img src="assets/create.gif" width="100%" height="200px"/>
       </td>
   		<td>
-			<img src="assets/recover.gif" width="100%" height="200px"/>
+				<img src="assets/recover.gif" width="100%" height="200px"/>
+      </td>
+  		<td>
+				<img src="assets/receive.gif" width="100%" height="200px"/>
+			</td>
+  		<td>
+				<img src="assets/transfer.gif" width="100%" height="200px"/>
 			</td>
  	</tr>
 </table>
