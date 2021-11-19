@@ -117,8 +117,7 @@ const Home: React.FC = () => {
         <BalanceValue>{balance}</BalanceValue>
         <FontAwesomeIcon icon={faHeartbeat} color="#000" size={30} />
       </BalanceContainer>
-      {/*
-      NOT IMPLEMENTED
+
       <ButtonContainer>
         <Button
           title="Receive"
@@ -141,7 +140,6 @@ const Home: React.FC = () => {
           titleStyle={{marginLeft: 15}}
         />
       </ButtonContainer>
-        */}
       <Title>Accounts</Title>
       <ButtonContainer>
         <Button

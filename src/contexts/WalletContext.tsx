@@ -4,9 +4,6 @@ import {Account} from 'web3-core';
 // @ts-ignore
 import bip39 from 'react-native-bip39';
 import {hdkey} from 'ethereumjs-wallet';
-import {Transaction} from '@ethereumjs/tx';
-import Common from '@ethereumjs/common';
-import {Buffer} from 'buffer';
 
 type WalletContextType = {
   web3: Web3;
@@ -83,27 +80,19 @@ export function WalletProvider({children}: Props) {
     const gasPrice = await web3.eth.getGasPrice();
     const amountToSend = web3.utils.toWei('5.0', 'ether');
 
-    var privateKeyHex = Buffer.from(privateKey, 'hex');
+    const signTx = await web3.eth.accounts.signTransaction(
+      {
+        nonce,
+        from: sendAccount.address,
+        gasPrice,
+        gas: 2000000,
+        to: account.address,
+        value: amountToSend,
+      },
+      privateKey,
+    );
 
-    var rawTx = {
-      nonce: web3.utils.toHex(nonce),
-      gasLimit: web3.utils.toHex(21000),
-      gasPrice: web3.utils.toHex(gasPrice),
-      to: account.address,
-      value: web3.utils.toHex(amountToSend),
-    };
-
-    var tx = new Transaction(rawTx);
-
-    tx.sign(privateKeyHex);
-
-    var serializedTx = tx.serialize();
-
-    console.log('PASSOU AQUI');
-
-    web3.eth
-      .sendSignedTransaction('0x' + serializedTx.toString('hex'))
-      .on('receipt', console.log);
+    web3.eth.sendSignedTransaction(signTx.rawTransaction!);
 
     const currentBalance = await web3.eth.getBalance(account.address);
     const parsedBalance = web3.utils.fromWei(currentBalance);
@@ -118,26 +107,19 @@ export function WalletProvider({children}: Props) {
     const gasPrice = await web3.eth.getGasPrice();
     const amountToSend = web3.utils.toWei(value, 'ether');
 
-    const privateKey = Buffer.from(account.privateKey.slice(2), 'hex');
-    const chainId = await web3.eth.getChainId();
+    const signTx = await web3.eth.accounts.signTransaction(
+      {
+        nonce,
+        from: address,
+        gasPrice,
+        gas: 2000000,
+        to: toAddress,
+        value: amountToSend,
+      },
+      account.privateKey,
+    );
 
-    var rawTx = {
-      nonce: web3.utils.toHex(nonce),
-      gasLimit: web3.utils.toHex(21000),
-      gasPrice: web3.utils.toHex(gasPrice),
-      to: toAddress,
-      value: web3.utils.toHex(amountToSend),
-      chain: web3.utils.toHex(chainId),
-    };
-
-    var tx = new Transaction(rawTx);
-    tx.sign(privateKey);
-
-    var serializedTx = tx.serialize();
-
-    web3.eth
-      .sendSignedTransaction('0x' + serializedTx.toString('hex'))
-      .on('receipt', console.log);
+    web3.eth.sendSignedTransaction(signTx.rawTransaction!);
 
     const currentBalance = await web3.eth.getBalance(account.address);
     const parsedBalance = web3.utils.fromWei(currentBalance);
