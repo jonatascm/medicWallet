@@ -33,7 +33,6 @@ export function WalletProvider({children}: Props) {
   const wallet_hdpath = "m/44'/60'/0'/0/0";
 
   const load = async () => {
-    console.log('load');
     if (!account) {
       setAddress('');
       setBalance('0.00');
