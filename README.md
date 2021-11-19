@@ -38,6 +38,16 @@ First, install dependencies:
 yarn
 ```
 
+For iOS run:<br>
+
+```
+open ios/medicWallet.xcworkspace
+
+Remove GCDAsyncSockcdet.m from references TcpSockets and react-native-udp in
+
+Pods => Build Phases => Compile Sources
+```
+
 Then, execute ganache and run the app:
 
 ```bash
