@@ -140,7 +140,6 @@ const Home: React.FC = () => {
           titleStyle={{marginLeft: 15}}
         />
       </ButtonContainer>
-      <Title>Accounts</Title>
       <ButtonContainer>
         <Button
           title="Create"

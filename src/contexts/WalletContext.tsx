@@ -1,4 +1,5 @@
 import React, {createContext, ReactNode, useState} from 'react';
+import {Platform} from 'react-native';
 import Web3 from 'web3';
 import {Account} from 'web3-core';
 // @ts-ignore
@@ -25,7 +26,9 @@ type Props = {
 };
 
 export function WalletProvider({children}: Props) {
-  const web3 = new Web3('http://localhost:7545');
+  const web3 = new Web3(
+    `http://${Platform.OS === 'android' ? '10.0.2.2' : 'localhost'}:7545`,
+  );
   const [balance, setBalance] = useState('0.00');
   const [account, setAccount] = useState<Account>();
   const [address, setAddress] = useState('');
@@ -55,9 +58,16 @@ export function WalletProvider({children}: Props) {
 
   const recoverAccount = async (fromMnemonic: string) => {
     const privateKey = await _getPrivateKey(fromMnemonic);
-    const recoveredAccount = web3.eth.accounts.privateKeyToAccount(privateKey);
-    setAccount(recoveredAccount);
-    setMnemonic(fromMnemonic);
+    console.log(privateKey);
+    try {
+      const recoveredAccount =
+        web3.eth.accounts.privateKeyToAccount(privateKey);
+      setAccount(recoveredAccount);
+      setMnemonic(fromMnemonic);
+    } catch (e) {
+      console.log('ERROR');
+      console.log(e);
+    }
   };
 
   const _getPrivateKey = async (fromMnemonic: string) => {
